@@ -9,6 +9,7 @@ const Nav = () => {
 	const isUserLoggedIn = true;
 
 	const [providers, setProviders] = useState(null);
+	const [toggleDropDown, setToggleDropDown] = useState(false);
 
 	// The getProvider function allows us to signIn and out using google and nextAuth
 	useEffect(function () {
@@ -52,6 +53,62 @@ const Nav = () => {
 								alt="profile"
 							/>
 						</Link>
+					</div>
+				) : (
+					<>
+						{providers &&
+							Object.values(providers).map((provider) => (
+								<button
+									type="button"
+									key={provider.name}
+									onClick={() => signIn(provider.id)}
+									className="black_btn"
+								>
+									Sign In
+								</button>
+							))}
+					</>
+				)}
+			</div>
+			{/*Mobile Navigation*/}
+			<div className="sm:hidden flex relative">
+				{isUserLoggedIn ? (
+					<div className="flex">
+						<img
+							src="/assets/images/logo.svg"
+							width={37}
+							height={37}
+							className="rounded-full"
+							alt="profile"
+							onClick={() => setToggleDropDown((prevState) => !prevState)}
+						/>
+
+						{toggleDropDown && (
+							<div className="dropdown">
+								<Link
+									href="/profile"
+									className="dropdown_link"
+									onClick={() => setToggleDropDowm(false)}
+								>
+									My Profile
+								</Link>
+								<Link
+									href="/create-prompt"
+									className="dropdown_link"
+									onClick={() => setToggleDropDown(false)}
+								>
+									Create Prompt
+								</Link>
+								<button
+									type="button"
+									onClick={() => setToggleDropDown(false)}
+									signOut
+									className="mt-5 w-full black_btn"
+								>
+									Sign Out
+								</button>
+							</div>
+						)}
 					</div>
 				) : (
 					<>
